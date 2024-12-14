@@ -1,0 +1,9 @@
+<div>
+  <h2>Detection History</h2>
+  <ul>
+    <li *ngFor="let detection of detectionHistory">
+      {{ detection.name }} - {{ detection.confidence }}%
+      ({{ detection.timestamp | date:'medium' }})
+    </li>
+  </ul>
+</div>
