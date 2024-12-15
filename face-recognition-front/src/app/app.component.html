@@ -1,9 +1,47 @@
-<div>
-  <h2>Detection History</h2>
-  <ul>
-    <li *ngFor="let detection of detectionHistory">
-      {{ detection.name }} - {{ detection.confidence }}%
-      ({{ detection.timestamp | date:'medium' }})
-    </li>
-  </ul>
+<div class="door-status-container">
+  <div
+    class="status-card"
+    [class.door-open]="doorStatus === 'open'"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="status-icon"
+      viewBox="0 0 24 24"
+    >
+      <path
+        *ngIf="doorStatus === 'closed'"
+        d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
+      />
+      <path
+        *ngIf="doorStatus === 'open'"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+
+    <h1 class="status-title">
+      {{ doorStatus === 'open' ? 'Door Open' : 'Door Closed' }}
+    </h1>
+
+    <div
+      *ngIf="currentDetection"
+      class="detection-details"
+    >
+      <div class="person-name">
+        {{ currentDetection.name }}
+      </div>
+      <div class="person-confidence">
+        Confidence: {{ currentDetection.confidence | number:'1.0-2' }}%
+      </div>
+      <div class="detection-time">
+        Detected at: {{ currentDetection.timestamp | date:'medium' }}
+      </div>
+    </div>
+
+    <div
+      *ngIf="doorStatus === 'closed'"
+      class="no-detection-message"
+    >
+      No one is detected
+    </div>
+  </div>
 </div>

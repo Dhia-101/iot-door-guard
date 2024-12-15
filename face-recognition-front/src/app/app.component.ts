@@ -1,5 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FaceDetectionService} from "../_services/face-detection.service";
+// src/app/app.component.ts
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Detection, DoorStatus, FaceDetectionService } from "../_services/face-detection.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -7,27 +9,34 @@ import {FaceDetectionService} from "../_services/face-detection.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  detectionHistory: any[] = [];
-  latestDetection: any = null;
+  doorStatus: DoorStatus = 'closed';
+  currentDetection: Detection | null = null;
+
+  private statusSubscription: Subscription | null = null;
+  private detectionSubscription: Subscription | null = null;
 
   constructor(private faceDetectionService: FaceDetectionService) {}
 
   ngOnInit() {
-    // Subscribe to detection history
-    this.faceDetectionService.getDetectionHistory()
-      .subscribe((history: any[]) => {
-        this.detectionHistory = history;
+    this.statusSubscription = this.faceDetectionService.getDoorStatus()
+      .subscribe(status => {
+        this.doorStatus = status;
+
+        // Clear detection when door closes
+        if (status === 'closed') {
+          this.currentDetection = null;
+        }
       });
 
-    // Subscribe to latest detection
-    this.faceDetectionService.getLatestDetection()
-      .subscribe((detection: any) => {
-        this.latestDetection = detection;
+    this.detectionSubscription = this.faceDetectionService.getDetection()
+      .subscribe(detection => {
+        this.currentDetection = detection;
       });
   }
 
   ngOnDestroy() {
-    // Optional: disconnect socket when component is destroyed
+    this.statusSubscription?.unsubscribe();
+    this.detectionSubscription?.unsubscribe();
     this.faceDetectionService.disconnect();
   }
 }

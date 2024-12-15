@@ -1,1 +1,114 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.scss (in src folder) */
+:root {
+  // Color Palette
+  --color-background: #f4f4f8;
+  --color-door-closed: #f44336;
+  --color-door-open: #4caf50;
+  --color-text-primary: #333;
+  --color-text-light: #ffffff;
+  --color-overlay: rgba(255, 255, 255, 0.2);
+
+  // Typography
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  // Transitions
+  --transition-smooth: all 0.3s ease-in-out;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.door-status-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  padding: 1rem;
+}
+
+.status-card {
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--color-door-closed);
+  color: var(--color-text-light);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  transition: var(--transition-smooth);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+
+  &.door-open {
+    background-color: var(--color-door-open);
+  }
+
+  .status-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .status-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .detection-details {
+    background-color: var(--color-overlay);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+
+    .person-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      @media (max-width: 768px) {
+        font-size: 1.25rem;
+      }
+    }
+
+    .person-confidence {
+      opacity: 0.8;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .detection-time {
+      font-size: 0.875rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .no-detection-message {
+    margin-top: 1rem;
+    opacity: 0.8;
+    font-size: 1.25rem;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
