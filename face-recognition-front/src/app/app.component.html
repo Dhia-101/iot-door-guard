@@ -19,7 +19,7 @@
     </svg>
 
     <h1 class="status-title">
-      {{ doorStatus === 'open' ? 'Door Open' : 'Door Closed' }}
+      {{ doorStatus === 'open' ? 'Porte Ouverte' : 'Porte Fermée' }}
     </h1>
 
     <div
@@ -30,10 +30,10 @@
         {{ currentDetection.name }}
       </div>
       <div class="person-confidence">
-        Confidence: {{ currentDetection.confidence | number:'1.0-2' }}%
+        Confiance: {{ currentDetection.confidence | number:'1.0-2' }}%
       </div>
       <div class="detection-time">
-        Detected at: {{ currentDetection.timestamp | date:'medium' }}
+        Détecté à: {{ currentDetection.timestamp | date:'medium' }}
       </div>
     </div>
 
@@ -41,7 +41,7 @@
       *ngIf="doorStatus === 'closed'"
       class="no-detection-message"
     >
-      No one is detected
+      Personne n`est détecté
     </div>
   </div>
 </div>
